@@ -8,9 +8,9 @@ const User = require("./../models/User.model");
 
 // Signup (post)
 router.post("/signup", (req, res) => {
-  const { username, pwd, email } = req.body;
-  console.log("username", username);
-  User.findOne({ username })
+  const { name, pwd, email } = req.body;
+  console.log("name", name);
+  User.findOne({ name })
     .then((user) => {
       if (user) {
         res.status(400).json({ code: 400, message: "Username already exixts" });
@@ -20,7 +20,7 @@ router.post("/signup", (req, res) => {
       const salt = bcrypt.genSaltSync(bcryptSalt);
       const hashPass = bcrypt.hashSync(pwd, salt);
 
-      User.create({ username, password: hashPass, email })
+      User.create({ name, pwd: hashPass, email })
         .then(() => res.json({ code: 200, message: "User created" }))
         .catch((err) =>
           res
@@ -37,16 +37,16 @@ router.post("/signup", (req, res) => {
 
 // Login (post)
 router.post("/login", (req, res) => {
-  const { username, pwd } = req.body;
+  const { name, pwd } = req.body;
 
-  User.findOne({ username })
+  User.findOne({ name })
     .then((user) => {
       if (!user) {
         res.status(401).json({ code: 401, message: "Username not registered" });
         return;
       }
 
-      if (bcrypt.compareSync(pwd, user.password) === false) {
+      if (bcrypt.compareSync(pwd, user.pwd) === false) {
         res.status(401).json({ code: 401, message: "Incorect password" });
         return;
       }
@@ -59,6 +59,20 @@ router.post("/login", (req, res) => {
       res
         .status(500)
         .json({ code: 500, message: "DB error while fetching user", err })
+    );
+});
+
+router.get("/profile/:_id", (req, res) => {
+  const idFromParam = req.params._id;
+  console.log("params del profile", req.params._id);
+  // Match.find({ match: [ { teams: [{ members: $in: [_id: idFromParam ] } ] ] }})
+  User.findById(idFromParam)
+    .then((response) => {
+      res.json(response);
+      console.log("response del perfil", response);
+    })
+    .catch((err) =>
+      res.status(500).json({ code: 500, message: "Error fetching", err })
     );
 });
 

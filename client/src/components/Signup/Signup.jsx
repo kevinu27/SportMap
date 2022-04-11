@@ -9,13 +9,13 @@ function Signup(props) {
   });
   const baseURL = `http://localhost:5000/api/signup`;
 
-  const [username, setUsername] = useState("");
+  const [name, setName] = useState("");
   const [pwd, setPwd] = useState("");
   const [email, setEmail] = useState("");
 
   const handleInputChangeUsername = (e) => {
-    setUsername(e.target.value);
-    console.log(username);
+    setName(e.target.value);
+    console.log(name);
   };
 
   const handleInputChangePwd = (e) => {
@@ -31,9 +31,9 @@ function Signup(props) {
   const HandleFormSubmit = (e) => {
     e.preventDefault();
 
-    signupAxios.post(baseURL, { username, pwd, email }).then((response) => {
+    signupAxios.post(baseURL, { name, pwd, email }).then((response) => {
       console.log("response");
-      setUsername("");
+      setName("");
       setPwd("");
       setEmail("");
       props.setModalOpenSignUp(false);
@@ -49,13 +49,13 @@ function Signup(props) {
         <hr></hr>
 
         <Form onSubmit={HandleFormSubmit}>
-          <Form.Group controlId="username">
+          <Form.Group controlId="name">
             <Form.Label>User</Form.Label>
             <Form.Control
               type="text"
               onChange={handleInputChangeUsername}
-              value={username}
-              name="username"
+              value={name}
+              name="name"
             />
           </Form.Group>
 

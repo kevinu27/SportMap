@@ -10,12 +10,12 @@ function Login(props) {
   });
   const baseURL = `http://localhost:5000/api/login`;
 
-  const [username, setUsername] = useState("");
+  const [name, setName] = useState("");
   const [pwd, setPwd] = useState("");
 
   const handleInputChangeUsername = (e) => {
-    setUsername(e.target.value);
-    console.log(username);
+    setName(e.target.value);
+    console.log(name);
   };
 
   const handleInputChangePwd = (e) => {
@@ -26,16 +26,16 @@ function Login(props) {
   const HandleFormSubmit = (e) => {
     e.preventDefault();
 
-    loginAxios.post(baseURL, { username, pwd }).then((loggedUserfromServer) => {
+    loginAxios.post(baseURL, { name, pwd }).then((loggedUserfromServer) => {
       console.log("Login");
       props.storeUser(loggedUserfromServer.data);
       console.log(
-        "loggedUserfromServer.data.username",
-        loggedUserfromServer.data.username
+        "loggedUserfromServer.data.name",
+        loggedUserfromServer.data.name
       );
-      setUsername("");
+      setName("");
       setPwd("");
-      props.setLoggedUserName(loggedUserfromServer.data.username);
+      props.setLoggedUserName(loggedUserfromServer.data.name);
 
       props.setModalOpenLogin(false);
       /// setstate de un div que ponga mensaje de conectado con exito
@@ -52,13 +52,13 @@ function Login(props) {
             <hr></hr>
 
             <Form onSubmit={HandleFormSubmit}>
-              <Form.Group controlId="username">
-                <Form.Label>username</Form.Label>
+              <Form.Group controlId="name">
+                <Form.Label>name</Form.Label>
                 <Form.Control
                   type="text"
-                  value={username}
+                  value={name}
                   onChange={handleInputChangeUsername}
-                  name="username"
+                  name="name"
                 />
               </Form.Group>
 
