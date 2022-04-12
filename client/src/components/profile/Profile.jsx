@@ -4,24 +4,39 @@ import axios from "axios";
 import { Form, Button, Row, Col } from "react-bootstrap";
 
 export function Profile(props) {
+  const [updateName, setUpdateName] = useState("");
+
   const [userData, setUserData] = useState({});
-  const getAllUsers = axios.create({
+  const getUserProfile = axios.create({
     withCredentials: true,
   });
+  const updateUserProfile = axios.create({
+    withCredentials: true,
+  });
+
+  const handleInputChangeUsername = (e) => {
+    setUpdateName(e.target.value);
+  };
 
   useEffect(() => {
     if (!props.loggedUser) {
       return;
     }
     const baseURL = `http://localhost:5000/api/profile/${props.loggedUser._id}`;
-    getAllUsers.get(baseURL).then((usersFromDatabase) => {
+    getUserProfile.get(baseURL).then((usersFromDatabase) => {
       setUserData(usersFromDatabase.data);
     });
   }, [props.loggedUser]);
 
   const HandleUpdateFormSubmit = (e) => {
+    const baseURL = `http://localhost:5000/api/profile/${props.loggedUser._id}`;
     e.preventDefault();
     console.log("click en el boton de update");
+    updateUserProfile
+      .put(baseURL, { name: updateName })
+      .then((userFromDatabase) => {
+        console.log("userFromDatabase", userFromDatabase);
+      });
   };
 
   return (
@@ -41,6 +56,8 @@ export function Profile(props) {
             id="exampleInputEmail1"
             aria-describedby="emailHelp"
             placeholder={userData.name}
+            onChange={handleInputChangeUsername}
+            value={updateName}
           ></input>
         </div>
 

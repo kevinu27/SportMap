@@ -87,17 +87,30 @@ router.post("/isloggedin", (req, res) => {
     : res.status(401).json({ code: 401, message: "Unauthorized" });
 });
 
-router.get("/getAllPlayers", (req, res) => {
-  User.find()
-    .then((users) => {
-      console.log("users", users);
-      res.json(users);
-    })
+router.put("/profile/:_id", (req, res) => {
+  const userId = req.params._id;
+  const user = req.body;
+
+  console.log("userId", userId);
+  console.log("user", user);
+  User.findByIdAndUpdate(userId, user)
+    .then((response) => res.json(response))
     .catch((err) =>
-      res
-        .status(500)
-        .json({ code: 500, message: "DB error while fetching user", err })
+      res.status(500).json({ code: 500, message: "Error editing user", err })
     );
 });
+
+// router.get("/getAllPlayers", (req, res) => {
+//   User.find()
+//     .then((users) => {
+//       console.log("users", users);
+//       res.json(users);
+//     })
+//     .catch((err) =>
+//       res
+//         .status(500)
+//         .json({ code: 500, message: "DB error while fetching user", err })
+//     );
+// });
 
 module.exports = router;
