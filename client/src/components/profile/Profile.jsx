@@ -1,83 +1,77 @@
 import React, { useState, useEffect } from "react";
 
 import axios from "axios";
-import { Container, Form, Button, Row, Col } from "react-bootstrap";
+import { Form, Button, Row, Col } from "react-bootstrap";
 
 export function Profile(props) {
-  const [userMatches, setUserMatches] = useState([]);
   const [userData, setUserData] = useState({});
-  const [loggedUserID, setLoggedUserID] = useState(props.loggedUser._id);
-
   const getAllUsers = axios.create({
     withCredentials: true,
   });
-  const baseURL = `http://localhost:5000/api/profile/${loggedUserID}`;
-
-  const getUsers = () => {
-    console.log("llamada al getUser");
-  };
 
   useEffect(() => {
-    console.log("loggedUser---", props.loggedUser._id);
+    if (!props.loggedUser) {
+      return;
+    }
+    const baseURL = `http://localhost:5000/api/profile/${props.loggedUser._id}`;
     getAllUsers.get(baseURL).then((usersFromDatabase) => {
-      // setUserData(usersFromDatabase.data);
-      console.log("userData", userData);
-      console.log("usersFromDatabase.data", usersFromDatabase.data);
       setUserData(usersFromDatabase.data);
     });
-  }, []);
+  }, [props.loggedUser]);
 
-  console.log("userData", userData.name);
+  const HandleUpdateFormSubmit = (e) => {
+    e.preventDefault();
+    console.log("click en el boton de update");
+  };
 
   return (
     <>
       <h1>Profile</h1>
-      <p> {userData.name}</p>
+      <div className="inputField">
+        <input></input>
+        <p> {userData.name}</p>
+      </div>
       <p> {userData.email}</p>
+      <form onSubmit={HandleUpdateFormSubmit}>
+        <div class="form-group">
+          <label for="exampleInputEmail1">Name</label>
+          <input
+            type="text"
+            class="form-control"
+            id="exampleInputEmail1"
+            aria-describedby="emailHelp"
+            placeholder={userData.name}
+          ></input>
+        </div>
 
-      <Row>
-        <Col md={{ span: 12, offset: 0 }}>
-          <h1>Login</h1>
+        <div class="form-group">
+          <label for="exampleInputEmail1">Email address</label>
+          <input
+            type="email"
+            class="form-control"
+            id="exampleInputEmail1"
+            aria-describedby="emailHelp"
+            placeholder={userData.email}
+          ></input>
+          <small id="emailHelp" class="form-text text-muted">
+            We'll never share your email with anyone else.
+          </small>
+        </div>
 
-          <hr></hr>
+        <div class="form-group">
+          <label for="exampleInputPassword1">Password</label>
+          <input
+            type="password"
+            class="form-control"
+            id="exampleInputPassword1"
+            placeholder="Password"
+          ></input>
+        </div>
 
-          <Form onSubmit={getUsers}>
-            <Form.Group controlId="name">
-              <Form.Label>name</Form.Label>
-              <Form.Control
-                type="text"
-                // value={name}
-                // onChange={handleInputChangeUsername}
-                name="name"
-              />
-            </Form.Group>
-
-            <Form.Group controlId="pwd">
-              <Form.Label>
-                <p>Password</p>
-              </Form.Label>
-              <Form.Control
-                type="password"
-                // value={pwd}
-                // onChange={handleInputChangePwd}
-                name="pwd"
-              />
-            </Form.Group>
-
-            <Button
-              style={{ marginTop: "10%", width: "50%", marginBottom: "10%" }}
-              variant="dark"
-              type="submit"
-            >
-              Login
-            </Button>
-          </Form>
-
-          {/* <Link to="/"> */}
-          {/* <Button variant="dark">Volver</Button> */}
-          {/* </Link> */}
-        </Col>
-      </Row>
+        <button type="submit" class="btn btn-primary">
+          UPDATE
+        </button>
+      </form>
     </>
   );
 }

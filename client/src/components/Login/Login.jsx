@@ -38,6 +38,8 @@ function Login(props) {
       props.setLoggedUserName(loggedUserfromServer.data.name);
 
       props.setModalOpenLogin(false);
+      document.cookie = JSON.stringify(loggedUserfromServer);
+      console.log("cookie", document.cookie);
       /// setstate de un div que ponga mensaje de conectado con exito
     });
   };

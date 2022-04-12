@@ -34,10 +34,12 @@ function App() {
   const baseURL = `http://localhost:5000/api/isloggedin`;
 
   useEffect(() => {
-    // console.log("loggedUser", loggedUser);
-    isLoggedIn.post(baseURL, { loggedUser }).then((theLoggedUser) => {
-      storeUser(theLoggedUser.data).catch(() => this.storeUser(undefined));
-    });
+    isLoggedIn
+      .post(baseURL, { loggedUser })
+      .then((theLoggedUser) => {
+        storeUser(theLoggedUser.data);
+      })
+      .catch(() => storeUser(undefined));
   }, []);
 
   return (
