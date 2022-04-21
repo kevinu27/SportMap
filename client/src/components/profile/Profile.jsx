@@ -5,6 +5,7 @@ import { Form, Button, Row, Col } from "react-bootstrap";
 
 export function Profile(props) {
   const [updateName, setUpdateName] = useState("");
+  const [updateEmail, setUpdateEmail] = useState("");
 
   const [userData, setUserData] = useState({});
   const getUserProfile = axios.create({
@@ -16,6 +17,9 @@ export function Profile(props) {
 
   const handleInputChangeUsername = (e) => {
     setUpdateName(e.target.value);
+  };
+  const handleInputChangeEmail = (e) => {
+    setUpdateEmail(e.target.value);
   };
 
   useEffect(() => {
@@ -33,7 +37,7 @@ export function Profile(props) {
     e.preventDefault();
     console.log("click en el boton de update");
     updateUserProfile
-      .put(baseURL, { name: updateName })
+      .put(baseURL, { name: updateName, email: updateEmail })
       .then((userFromDatabase) => {
         console.log("userFromDatabase", userFromDatabase);
       });
@@ -42,11 +46,10 @@ export function Profile(props) {
   return (
     <>
       <h1>Profile</h1>
-      <div className="inputField">
-        <input></input>
+      {/* <div className="inputField">
         <p> {userData.name}</p>
       </div>
-      <p> {userData.email}</p>
+      <p> {userData.email}</p> */}
       <form onSubmit={HandleUpdateFormSubmit}>
         <div class="form-group">
           <label for="exampleInputEmail1">Name</label>
@@ -69,6 +72,8 @@ export function Profile(props) {
             id="exampleInputEmail1"
             aria-describedby="emailHelp"
             placeholder={userData.email}
+            onChange={handleInputChangeEmail}
+            value={updateEmail}
           ></input>
           <small id="emailHelp" class="form-text text-muted">
             We'll never share your email with anyone else.

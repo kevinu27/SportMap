@@ -108,6 +108,13 @@ export function Header(props) {
                   <li onClick={() => props.setPage(5)}>Profile</li>
                 </Link>
               ) : null}
+              {props.loggedUser && <hr />}
+              {props.loggedUser ? (
+                <Link to={`/newEvent`}>
+                  <li onClick={() => props.setPage(5)}>New Event</li>
+                </Link>
+              ) : null}
+
               <hr />
               {props.loggedUser ? (
                 <li

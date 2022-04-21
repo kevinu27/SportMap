@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 
-const Match = require("../models/Match.model");
+const Event = require("../models/Event.model");
 
 // router.get("/getAllCoasters", (req, res) => {
 //   Coaster.find()
@@ -15,27 +15,26 @@ const Match = require("../models/Match.model");
 //     );
 // });
 
-router.get("/profile/:_id", (req, res) => {
-  const idFromParam = req.params._id;
-  console.log("params", req.params._id);
-  // Match.find({ match: [ { teams: [{ members: $in: [_id: idFromParam ] } ] ] }})
-  Match.find({ Members: { _id: idFromParam } })
-    .populate("users")
-    .then((response) => {
-      res.json(response);
-      console.log("response", response);
-    })
-    .catch((err) =>
-      res.status(500).json({ code: 500, message: "Error fetching", err })
-    );
-});
+// router.get("/profile/:_id", (req, res) => {
+//   const idFromParam = req.params._id;
+//   console.log("params", req.params._id);
+//   // Match.find({ match: [ { teams: [{ members: $in: [_id: idFromParam ] } ] ] }})
+//   Match.find({ Members: { _id: idFromParam } })
+//     .populate("users")
+//     .then((response) => {
+//       res.json(response);
+//       console.log("response", response);
+//     })
+//     .catch((err) =>
+//       res.status(500).json({ code: 500, message: "Error fetching", err })
+//     );
+// });
 
-router.post("/newMatch", (req, res) => {
-  const matches = req.body;
-  // console.log("matches", matches);
+router.post("/newEvent", (req, res) => {
+  const event = req.body;
   console.log("req.body", req.body);
 
-  Match.create(matches)
+  Event.create(event)
     .then((response) => res.json(response))
     .catch((err) =>
       res.status(500).json({ code: 500, message: "Error saving", err })

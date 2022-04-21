@@ -23,8 +23,8 @@ import mapStyles from "./mapStyles";
 
 const libraries = ["places"];
 const mapContainerStyle = {
-  height: "100vh",
-  width: "100vw",
+  height: "70vh",
+  width: "70vw",
 };
 const options = {
   styles: mapStyles,
@@ -36,7 +36,7 @@ const center = {
   lng: -79.3832,
 };
 
-export function Map(props) {
+export function MapToSetMarker(props) {
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
     libraries,
@@ -46,16 +46,18 @@ export function Map(props) {
   const [selected, setSelected] = useState(null);
 
   // descomentar para poder hacer click y poner un marcador
-  // const onMapClick = React.useCallback((e) => {
-  //   setMarkers((current) => [
-  //     //   ...current,
-  //     {
-  //       lat: e.latLng.lat(),
-  //       lng: e.latLng.lng(),
-  //       time: new Date(),
-  //     },
-  //   ]);
-  // }, []);
+  const onMapClick = React.useCallback((e) => {
+    setMarkers((current) => [
+      //   ...current,
+      {
+        lat: e.latLng.lat(),
+        lng: e.latLng.lng(),
+        time: new Date(),
+      },
+    ]);
+    console.log("lat", e.latLng.lat());
+    console.log("lng", e.latLng.lng());
+  }, []);
 
   const mapRef = React.useRef();
   const onMapLoad = React.useCallback((map) => {
@@ -97,7 +99,7 @@ export function Map(props) {
         zoom={8}
         center={center}
         options={options}
-        // onClick={onMapClick}   //decomentar para poder hacer click y poner un marcdor
+        onClick={onMapClick} //decomentar para poder hacer click y poner un marcdor
         onLoad={onMapLoad}
       >
         {markers.map((marker) => (
@@ -112,9 +114,8 @@ export function Map(props) {
           />
         ))}
 
-        {
-          // para hacer click y que aparezca el marcador
-          /* {markers.map((marker) => (
+        {// para hacer click y que aparezca el marcador
+        markers.map((marker) => (
           <Marker
             key={`${marker.lat}-${marker.lng}`}
             position={{ lat: marker.lat, lng: marker.lng }}
@@ -128,8 +129,7 @@ export function Map(props) {
               scaledSize: new window.google.maps.Size(30, 30),
             }}
           />
-        ))} */
-        }
+        ))}
 
         {selected ? (
           <InfoWindow

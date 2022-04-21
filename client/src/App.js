@@ -12,6 +12,7 @@ import { back } from "../src/components/functions/functions";
 import React, { useState, useEffect } from "react";
 // import { Switch, Route, Redirect } from "react-router-dom";
 import { Profile } from "./components/profile/Profile";
+import { CreateEvent } from "./components/CreateEvent/CreateEvent";
 import axios from "axios";
 
 import {
@@ -67,6 +68,9 @@ function App() {
             </Route>
             <Route path="/profile/:id" exact>
               <Profile loggedUser={loggedUser} />
+            </Route>
+            <Route path="/newEvent/" exact>
+              <CreateEvent />
             </Route>
           </Switch>
         </div>
