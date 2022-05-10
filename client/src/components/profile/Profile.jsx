@@ -33,7 +33,7 @@ export function Profile(props) {
   }, [props.loggedUser]);
 
   const HandleUpdateFormSubmit = (e) => {
-    const baseURL = `http://localhost:5000/api/profile/${props.loggedUser._id}`;
+    const baseURL = `http://localhost:5000/api/profileUpdate/${props.loggedUser._id}`;
     e.preventDefault();
     console.log("click en el boton de update");
     updateUserProfile

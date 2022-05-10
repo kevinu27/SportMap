@@ -41,6 +41,21 @@ router.post("/newEvent", (req, res) => {
     );
 });
 
+router.get("/getEvents", (req, res) => {
+  // const event = req.body;
+  // console.log("req.body", req.body);
+
+  Event.find()
+    .then((response) => {
+      console.log("events", response);
+      res.json(response);
+    })
+
+    .catch((err) =>
+      res.status(500).json({ code: 500, message: "Error saving", err })
+    );
+});
+
 // router.put("/editCoaster/:coaster_id", (req, res) => {
 //   const coaster = req.body;
 

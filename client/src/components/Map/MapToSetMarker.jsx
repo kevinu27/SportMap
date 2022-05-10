@@ -57,6 +57,8 @@ export function MapToSetMarker(props) {
     ]);
     console.log("lat", e.latLng.lat());
     console.log("lng", e.latLng.lng());
+    props.setLng(e.latLng.lng());
+    props.setLat(e.latLng.lat());
   }, []);
 
   const mapRef = React.useRef();
@@ -109,7 +111,7 @@ export function MapToSetMarker(props) {
               props.formVisibilityFunctionProp();
               //setSelected(marker);  /// comentando esta linea no sale el infowindows
               props.markerWindowContentFunction(marker.lat, marker.info);
-              // console.log(marker);
+              // console.log("marker", marker);
             }}
           />
         ))}

@@ -5,10 +5,12 @@ const eventSchema = new Schema(
     image: [String],
     description: String,
     rating: Number,
-    location: {
-      type: { type: String },
-      coordinates: [Number],
-    },
+    // location: {
+    //   type: { type: String },
+    //   coordinates: [Number],
+    // },
+    lat: Number,
+    lng: Number,
   },
   {
     timestamps: true,

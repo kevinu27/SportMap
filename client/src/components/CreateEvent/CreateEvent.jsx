@@ -5,6 +5,9 @@ import axios from "axios";
 
 export function CreateEvent(props) {
   const [sportName, setSportName] = useState("");
+  const [description, setDescription] = useState("");
+  const [lat, setLat] = useState("");
+  const [lng, setLng] = useState("");
 
   const createEventAxios = axios.create({
     withCredentials: true,
@@ -13,20 +16,29 @@ export function CreateEvent(props) {
 
   const HandleFormSubmit = (e) => {
     e.preventDefault();
-    console.log("HandleFormSubmit");
-    createEventAxios.post(baseURL, { sportName }).then((response) => {
-      //   console.log("response");
-      //   setName("");
-      //   setPwd("");
-      //   setEmail("");
-      //   props.setModalOpenSignUp(false);
-      /// setstate de un div que ponga mensaje de conectado con exito
-    });
+    console.log("lat", lat);
+    console.log("lng", lng);
+
+    createEventAxios
+      .post(baseURL, { sportName, description, lat, lng })
+      .then((response) => {
+        //   console.log("response");
+        //   setName("");
+        //   setPwd("");
+        //   setEmail("");
+        //   props.setModalOpenSignUp(false);
+        /// setstate de un div que ponga mensaje de conectado con exito
+      });
   };
 
   const handleInputSportName = (e) => {
     setSportName(e.target.value);
     console.log(sportName);
+  };
+
+  const handleInputDescription = (e) => {
+    setDescription(e.target.value);
+    console.log(description);
   };
 
   return (
@@ -55,12 +67,12 @@ export function CreateEvent(props) {
         <div class="form-group">
           <label for="exampleInputEmail1">Description</label>
           <input
-            type="email"
+            type="text"
             class="form-control"
             id="exampleInputEmail1"
             aria-describedby="emailHelp"
             // placeholder={userData.email}
-            // onChange={handleInputChangeEmail}
+            onChange={handleInputDescription}
             // value={updateEmail}
           ></input>
           <small id="emailHelp" class="form-text text-muted">
@@ -78,7 +90,7 @@ export function CreateEvent(props) {
           ></input>
         </div>
 
-        <MapToSetMarker />
+        <MapToSetMarker setLat={setLat} setLng={setLng} />
 
         <button type="submit" class="btn btn-primary">
           Create Event

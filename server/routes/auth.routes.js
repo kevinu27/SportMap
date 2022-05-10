@@ -87,7 +87,7 @@ router.post("/isloggedin", (req, res) => {
     : res.status(401).json({ code: 401, message: "Unauthorized" });
 });
 
-router.put("/profile/:_id", (req, res) => {
+router.put("/profileUpdate/:_id", (req, res) => {
   const userId = req.params._id;
   const user = req.body;
 
